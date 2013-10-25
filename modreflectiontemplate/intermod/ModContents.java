@@ -17,13 +17,13 @@ public abstract class ModContents {
 	}
 	
 	protected <T> Content<T> of(Class classToAccess, String fieldName) {
-		return new Content<T>(classToAccess, fieldName);
+		return new Content<T>(classToAccess, null, fieldName, Functions.identity());
 	}
 	protected <T> Content<T> of(Class classToAccess, Object instance, String fieldName) {
-		return new Content<T>(classToAccess, instance, fieldName);
+		return new Content<T>(classToAccess, instance, fieldName, Functions.identity());
 	}
 	protected <T> Content<T> of(Class classToAccess, String fieldName, Function functionToApply) {
-		return new Content<T>(classToAccess, fieldName, functionToApply);
+		return new Content<T>(classToAccess, null, fieldName, functionToApply);
 	}
 	protected <T> Content<T> of(Class classToAccess, Object instance, String fieldName, Function functionToApply) {
 		return new Content<T>(classToAccess, instance, fieldName, functionToApply);
@@ -36,25 +36,6 @@ public abstract class ModContents {
 		private final String fieldName;
 		private final Function functionToApply;
 
-		private Content(Class classToAccess, String fieldName) {
-			this.classToAccess = classToAccess;
-			this.instance = null;
-			this.fieldName = fieldName;
-			this.functionToApply = Functions.identity();
-		}
-		private Content(Class classToAccess, Object instance, String fieldName) {
-			this.classToAccess = classToAccess;
-			this.instance = instance;
-			this.fieldName = fieldName;
-			this.functionToApply = Functions.identity();
-		}
-
-		private Content(Class classToAccess, String fieldName, Function functionToApply) {
-			this.classToAccess = classToAccess;
-			this.instance = null;
-			this.fieldName = fieldName;
-			this.functionToApply = functionToApply;
-		}
 		private Content(Class classToAccess, Object instance, String fieldName, Function functionToApply) {
 			this.classToAccess = classToAccess;
 			this.instance = instance;
@@ -89,11 +70,9 @@ public abstract class ModContents {
 	public class ModMissingException extends RuntimeException { }
 	
 	public class ModReflectionFailException extends RuntimeException {
-		
 		public ModReflectionFailException(Throwable e) {
 			super(e);
 		}
-		
 	}
 	
 }
